@@ -1,25 +1,36 @@
-<h2>プロフィール編集</h2>
-
-<!-- ここからコードを書きましょう -->
-<% if @user.errors.any? %>
-  <%= @user.errors.count %>件のエラーが発生しました
-  <ul>
-  <% @user.errors.full_messages.each do |message| %>
-    <li><%= message %></li>
-  <% end %>
-  </ul>
-<% end %>
-<!-- ここまでのあいだにコードを書きましょう -->
-
-<%= form_with model:@user, local:true do |f| %>
-  <label for="inputName">Name</label>
-  <%= f.text_field :name, autofocus: true, id:"inputName", placeholder:"名前"%>
-  
-  <!-- ここからコードを書きましょう -->
-  <%= image_tag @user.get_profile_image(100, 100) %>
-  <label for="inputImage">ProfileImage</label>
-  <%= f.file_field :profile_image, accept: "image/*", placeholder: "プロフィール画像" %>
-  <!-- ここまでのあいだにコードを書きましょう -->
-  
-  <%= f.submit "変更を保存" %>
-<% end %>
+<div class="container">
+  <div class="row no-gutters">
+    <div class="col-md-5 col-sm-10 mx-2 mx-sm-auto text-center shadow-lg rounded px-0 my-5">
+      <h5 class="text-dark bg-light py-4 mb-0">プロフィール編集</h5>
+      <% if @user.errors.any? %>
+        <%= @user.errors.count %>件のエラーが発生しました
+        <ul>
+        <% @user.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+        </ul>
+      <% end %>
+      <div class="form-body p-4">
+        <%= form_with model:@user, local:true do |f| %>
+          <div class="input-group mb-3">
+            <div class="input-group-prepend">
+              <span class="input-group-text" aria-hidden="true"><i class="fas fa-user"></i></span>
+            </div>
+            <%= f.text_field :name, autofocus: true, id:"inputName", placeholder:"名前", class: "form-control" %>
+          </div>
+          <% if @user.profile_image.attached? %>
+            <%= image_tag @user.profile_image, size: '60x60', class: "attachment user profile_image mb-3" %>
+          <% else %>
+            <%= image_tag 'no_image.jpg', size: '60x60', class: "attachment user profile_image mb-3" %>
+          <% end %>
+          <div class="input-group my-3">
+            <label>
+            <%= f.file_field :profile_image, placeholder: "プロフィール画像", class: "w-100" %>
+            </label>
+          </div>
+          <%= f.submit "変更を保存", class: "btn btn-lg btn-block btn-info mt-5" %>
+        <% end %>     
+      </div>
+    </div>
+  </div>
+</div>
