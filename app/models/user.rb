@@ -9,7 +9,9 @@ class User < ApplicationRecord
   
   has_one_attached :profile_image
   
-  # ---- 下記を追加してください ---- #
+  # ---- 以下を追加してください ---- #
+  validates :name, presence: true
+  
   def get_profile_image(w, h)
     unless profile_image.attached?
       file_path = Rails.root.join('app/assets/images/sample-author1.jpg')
